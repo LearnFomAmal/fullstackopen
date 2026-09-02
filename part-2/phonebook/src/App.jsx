@@ -19,6 +19,8 @@ const App = () => {
     })
   },[])
 
+  
+
   const handleChange=(e)=>{
 
    console.log(e.target.value);
@@ -33,10 +35,15 @@ const App = () => {
            setNewName('');
            setNumber('');
        }else{
-         const newObj={name:newName,number:number,id:Date.now()};
-         setPersons(prev=>[...prev,newObj]);
-         setNewName('');
-         setNumber('');
+         const newObj={name:newName,number:number};
+         axios.post(baseUrl,newObj)
+        .then(response=>{
+          console.log(response);
+          setPersons(prev=>[...prev,response.data]);
+          setNewName('');
+          setNumber('');
+        })
+       
        }
   }
   const filteredPersons=persons.filter(person=>person.name.toLowerCase().includes(filter.toLowerCase()));
