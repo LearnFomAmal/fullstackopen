@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPersons, addPerson } from "./services/phoneBookApi";
+import { getPersons, addPerson , deletePerson} from "./services/phoneBookApi";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -54,7 +54,7 @@ const App = () => {
         setNumber={setNumber}
       />
       <h3>Numbers</h3>
-      <Persons filteredPersons={filteredPersons} loading={loading} />
+      <Persons filteredPersons={filteredPersons} loading={loading} setPersons={setPersons} />
     </div>
   );
 };
@@ -92,7 +92,7 @@ function PersonForm({
   );
 }
 
-function Persons({ filteredPersons, loading }) {
+function Persons({ filteredPersons, loading,setPersons }) {
   return (
     <div>
       {loading ? (
@@ -101,6 +101,10 @@ function Persons({ filteredPersons, loading }) {
         filteredPersons.map((person) => (
           <div key={person.id}>
             {person.name} - {person.number}
+            <button onClick={() => deletePerson(person.id).then(() => {
+               setPersons((prev) => prev.filter((p)=>p.id !== person.id))
+            })} 
+            style={{marginLeft:'10px',}}>delete</button>
           </div>
         ))
       )}
