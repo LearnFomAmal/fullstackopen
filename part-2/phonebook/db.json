@@ -31,24 +31,14 @@
       "id": "bUDOpPM6NtY"
     },
     {
-      "name": "akash",
-      "number": "1252645",
-      "id": "JHx_OspNg5Q"
+      "name": "adharsh",
+      "number": "13245156",
+      "id": "EJdLAj33X5k"
     },
     {
-      "name": "ashik",
-      "number": "4567890",
-      "id": "mWFVI9iYFeA"
-    },
-    {
-      "name": "siraj",
-      "number": "7645126373902",
-      "id": "Wh6CG1-KnZw"
-    },
-    {
-      "name": "jothish",
-      "number": "54545435",
-      "id": "-5G5_maKsiM"
+      "name": "suresh",
+      "number": "567809",
+      "id": "o7PrFial2fo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
