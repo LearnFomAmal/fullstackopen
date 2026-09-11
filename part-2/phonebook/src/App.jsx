@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getPersons, addPerson , deletePerson} from "./services/phoneBookApi";
+import { getPersons, addPerson , deletePerson,updatedPerson} from "./services/phoneBookApi";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -17,7 +17,7 @@ const App = () => {
   }, []);
 
   const handleChange = (e) => {
-    console.log(e.target.value);
+
     setNewName(e.target.value);
   };
 
@@ -25,7 +25,18 @@ const App = () => {
     event.preventDefault();
     const nameExists = persons.find((person) => person.name === newName);
     if (nameExists) {
-      alert(`${newName} is already added to phonebook`);
+      const result=window.confirm(`${newName} is already added to the phonebook,replace the old number with new one?`)
+         if(result){
+          const id=nameExists.id
+          const updatePerson={
+            name:newName,
+            number:number
+          }
+        
+          updatedPerson(id,updatePerson).then(data=>{
+            setPersons((prev)=>prev.filter(obj=>obj.name!==data.name).concat(data))
+          })
+         }
       setNewName("");
       setNumber("");
     } else {
@@ -93,6 +104,15 @@ function PersonForm({
 }
 
 function Persons({ filteredPersons, loading,setPersons }) {
+  const confirmDelete=(person)=>{
+    const result=window.confirm(`delete ${person.name}?`)
+ if(result){
+    deletePerson(person.id).then(() => {
+    setPersons((prev) => prev.filter((p)=>p.id !== person.id))
+   })
+ }
+  
+  }
   return (
     <div>
       {loading ? (
@@ -101,9 +121,7 @@ function Persons({ filteredPersons, loading,setPersons }) {
         filteredPersons.map((person) => (
           <div key={person.id}>
             {person.name} - {person.number}
-            <button onClick={() => deletePerson(person.id).then(() => {
-               setPersons((prev) => prev.filter((p)=>p.id !== person.id))
-            })} 
+            <button onClick={()=>confirmDelete(person)} 
             style={{marginLeft:'10px',}}>delete</button>
           </div>
         ))
