@@ -19,5 +19,6 @@ export const deletePerson = async (id) => {
 
 export const updatedPerson = async (id,data) => {
   const response=await axios.put(`${baseUrl}/${id}`,data);
+
    return response.data;
 }

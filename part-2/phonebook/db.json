@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "shammal",
-      "number": "1234",
+      "number": "12345",
       "id": "bUDOpPM6NtY"
     },
     {
@@ -11,9 +11,10 @@
       "id": "EJdLAj33X5k"
     },
     {
-      "name": "suresh",
-      "number": "333",
-      "id": "o7PrFial2fo"
+      "name": "arya",
+      "number": "12",
+      "id": "hnaLWlYs7E4"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

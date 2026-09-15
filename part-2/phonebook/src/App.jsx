@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { getPersons, addPerson , deletePerson,updatedPerson} from "./services/phoneBookApi";
-
+import './App.css';
 const App = () => {
   const [persons, setPersons] = useState([]);
 
@@ -8,6 +8,9 @@ const App = () => {
   const [number, setNumber] = useState("");
   const [filter, setFilter] = useState("");
   const [loading, setLoading] = useState(true);
+  const [toast,settoast]=useState("");
+  const [error,setError]=useState("");
+
 
   useEffect(() => {
     getPersons().then((data) => {
@@ -35,7 +38,14 @@ const App = () => {
         
           updatedPerson(id,updatePerson).then(data=>{
             setPersons((prev)=>prev.filter(obj=>obj.name!==data.name).concat(data))
-          })
+        }).catch(error=>{
+         console.log(error);
+         setError(`information of ${newName} has already been removed from server`);
+         setPersons(prev=>prev.filter(data=>data.name!==newName));
+         setTimeout(()=>{
+          setError(null);
+         },5000)
+        })
          }
       setNewName("");
       setNumber("");
@@ -43,8 +53,13 @@ const App = () => {
       const newObj = { name: newName, number: number };
       addPerson(newObj).then((data) => {
         setPersons((prev) => [...prev, data]);
+        settoast(`added ${data.name}`)
         setNewName("");
         setNumber("");
+        setTimeout(()=>{
+         settoast(null)
+        
+        },5000)
       });
     }
   };
@@ -54,6 +69,12 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      {toast?<div className="message">
+        {toast}
+      </div>:null}
+      {error?<div className="error">
+        {error}
+      </div>:null}
       <Filter filter={filter} setFilter={setFilter} />
       <h2>add a new</h2>
 
