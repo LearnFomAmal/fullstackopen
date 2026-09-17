@@ -4,7 +4,7 @@ import './App.css';
 
 function App() {
  
- const [country,setCountry]=useState(null);
+ const [country,setCountry]=useState([]);
  const [search,setSearch]=useState("");
 
  useEffect(()=>{
@@ -15,10 +15,9 @@ function App() {
       })
  },[])
 
- if(!country){
-  return null;
- }
- 
+const displsyCountry=country.filter(data=>{
+  return data.name.common.toLowerCase().includes(search.toLowerCase());
+})
 
   return (
     <div>
@@ -26,7 +25,29 @@ function App() {
   find countries: 
    <input type='text' value={search} onChange={(e)=>setSearch(e.target.value)}/>
   </label>
-  {country.map(data=><h1>{data.name.common}</h1>)}
+  {displsyCountry.length>10?(
+    <p>Too many matches, specify another filter</p>
+  ):
+  displsyCountry.length!==1?(
+   displsyCountry.map(data=>(
+    <div key={data.name.common}>{data.name.common}</div>
+  ))
+  ):displsyCountry.map(data=>(
+    <div key={data.name.common}>
+     <h1>{data.name.common}</h1>
+      <p>{data.capital[0]}</p>
+      <p>{data.area}</p>
+      <h1>languages</h1>
+      {Object.values(data.languages).map(lang=>{
+        return(
+          <ul>
+    <li key={lang}>{lang}</li>
+          </ul>
+        )
+      })}
+       <img src={data.flags.png} alt={data.flags.alt}/>
+    </div>
+  ))}
     </div>
   )
 }
