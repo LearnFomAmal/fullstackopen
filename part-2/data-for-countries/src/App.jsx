@@ -30,7 +30,14 @@ const displsyCountry=country.filter(data=>{
   ):
   displsyCountry.length!==1?(
    displsyCountry.map(data=>(
-    <div key={data.name.common}>{data.name.common}</div>
+    <>
+     <div key={data.name.common}>
+      {data.name.common}
+     <button onClick={()=>setSearch(data.name.common)}>show</button>
+
+     </div>  
+    </>
+
   ))
   ):displsyCountry.map(data=>(
     <div key={data.name.common}>
